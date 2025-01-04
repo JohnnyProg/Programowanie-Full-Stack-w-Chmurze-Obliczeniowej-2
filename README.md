@@ -24,9 +24,11 @@ This documentation describes the Kubernetes configuration and deployment for two
   - Deny communication from any pod in `appns-b` to `appns-a`.
 
 ### Ingress
-- **`ingress.yaml`**: Ingress configuration to:
+- **`app-a_ing.yaml`**: Ingress configuration to:
   - Expose `app-a` at `a.lab9.net`.
-  - Expose `app-b` at `b.lab9.net`.
+- **`app-b_ing.yaml`** Ingress configuration to:
+  - Expose `app-b` at `b.lab.net`.
+- **`default-backend_ing.yaml`**: Ingress configuration to:
   - Redirect unmatched requests to the default backend service (`hello-api`).
 
 ## Deployment Instructions
