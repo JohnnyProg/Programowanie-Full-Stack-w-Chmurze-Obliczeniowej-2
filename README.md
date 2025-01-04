@@ -33,12 +33,6 @@ This documentation describes the Kubernetes configuration and deployment for two
 
 ## Deployment Instructions
 
-### Prerequisites
-Ensure that:
-1. A Kubernetes cluster is set up and accessible.
-2. The NGINX Ingress Controller is installed in the cluster.
-3. You have `kubectl` configured to interact with your cluster.
-
 ### Steps to Deploy
 1. **Create Namespaces**
    ```bash
@@ -67,7 +61,9 @@ Ensure that:
 
 5. **Configure Ingress**
    ```bash
-   kubectl apply -f ingress.yaml
+   kubectl apply -f app-a_ing.yaml
+   kubectl apply -f app-b_ing.yaml
+   kubectl apply -f default-backend_ing.yaml
    ```
 
 ### Verify the Deployment
@@ -77,28 +73,25 @@ Ensure that:
    kubectl get all -n appns-b
    kubectl get all -n default
    ```
+   - **Namespace: appns-a**  
+  ![appns-a status](./get_all_a.png)
 
-2. **Test Network Policies**
-   Ensure there is no communication between pods in `appns-a` and `appns-b`.
-   ```bash
-   kubectl exec -n appns-a <pod-name> -- curl <service-name>.appns-b
-   ```
-   The above command should fail.
+- **Namespace: appns-b**  
+  ![appns-b status](./get_all_b.png)
 
-3. **Access Applications via Ingress**
-   - Open a browser or use `curl` to access:
-     - `http://a.lab9.net` for `app-a`
-     - `http://b.lab9.net` for `app-b`
-     - Test unmatched requests to confirm redirection to the default backend.
+#### 2. **Access Applications via Ingress**
 
-## Screenshots
+Test the application endpoints using a browser or `curl`.  
 
-### Deployment Verification
-_Include screenshots showing the status of pods, services, and ingress._
+- **Access `app-a`**  
+  URL: `http://a.lab9.net`  
+  ![app-a response](./curl_a.png)
 
-### Network Policy Testing
-_Include screenshots or outputs verifying blocked communication between namespaces._
+- **Access `app-b`**  
+  URL: `http://b.lab9.net`  
+  ![app-b response](./curl_b.png)
 
-### Application Access
-_Include screenshots or outputs showing successful access to `app-a`, `app-b`, and the default backend via Ingress._
+- **Test Unmatched Requests (Redirection)**  
+  Example: `http://unmatched.lab9.net`  
+  ![default backend response](./curl_default.png)
 
